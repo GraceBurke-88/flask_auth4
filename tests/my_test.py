@@ -1,7 +1,6 @@
 """This test the homepage"""
 import pytest
 
-
 #password that is invalid for login
 def test_invalid_password_login(client, application):
    response = client.get("/login")
@@ -67,13 +66,38 @@ def test_bad_username_register(client, application):
    else:
        print("Invalid Email")
 
-
+#Invalid password criteria
 def test_invalid_password_register(client, application):
    response = client.get("/register")
    data = {'email': '4@gmail.com', 'password': '123456', 'confirm': '123456'}
    password = data['password']
-   if(len(password) >= 6):
+   if(len(password) >= 6 or len(password) < 35):
        print("Valid Password")
        response = application.test_client().post('/register', data=data)
    else:
        print("Invalid Password")
+
+
+def test_deny_dash(client, application):
+#denying access to the dashboard for not logged in users
+   response = client.get("/login")
+   response = application.test_client().post('/login', data={'email': 'm', 'password': '123', 'confirm': '123'})
+   if b'a href="/dashboard">/dashboard</a>' in response.data:
+       response = client.get("/dashboard")
+       print('allowing access to the dashboard for logged in users')
+   else:
+        print('denying access to the dashboard for logged in users')
+
+#allowing access to the dashboard for logged in users
+def test_allow_dash(client, application):
+   response = client.get("/login")
+   response = application.test_client().post('/login', data={'email': 'nice@gmail.com', 'password': '123456', 'confirm': '123456'})
+   if b'a href="/dashboard">/dashboard</a>' in response.data:
+       response = client.get("/dashboard")
+       print('allowing access to the dashboard for logged in users')
+   else:
+       print('denying access to the dashboard for logged in users')
+
+
+
+

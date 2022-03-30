@@ -31,6 +31,7 @@ def login():
             flash("Welcome", 'success')
             print("Welcome", 'success')
             return redirect(url_for('auth.dashboard'))
+            print('redirect dash')
     return render_template('login.html', form=form)
 
 
