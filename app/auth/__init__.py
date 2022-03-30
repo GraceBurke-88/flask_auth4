@@ -21,6 +21,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
+            print('Invalid username or password')
             return redirect(url_for('auth.login'))
         else:
             user.authenticated = True
@@ -28,6 +29,7 @@ def login():
             db.session.commit()
             login_user(user)
             flash("Welcome", 'success')
+            print("Welcome", 'success')
             return redirect(url_for('auth.dashboard'))
     return render_template('login.html', form=form)
 
@@ -48,9 +50,11 @@ def register():
                 db.session.add(user)
                 db.session.commit()
             flash('Congratulations, you are now a registered user!', "success")
+            print('Congratulations, you are now a registered user!', "success")
             return redirect(url_for('auth.login'), 302)
         else:
             flash('Already Registered')
+            print('Already Registered')
             return redirect(url_for('auth.login'), 302)
     return render_template('register.html', form=form)
 
@@ -122,6 +126,7 @@ def add_user():
             db.session.add(user)
             db.session.commit()
             flash('Congratulations, you just created a user', 'success')
+            print('Congratulations, you just created a user', 'success')
             return redirect(url_for('auth.browse_users'))
         else:
             flash('Already Registered')

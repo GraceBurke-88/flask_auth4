@@ -57,6 +57,8 @@ def create_app():
     app.cli.add_command(create_database)
     # Setup Flask-User and specify the User data-model
 
+    app.config['WTF_CSRF_ENABLED'] = False
+
     return app
 
 
@@ -66,3 +68,4 @@ def user_loader(user_id):
         return User.query.get(int(user_id))
     except:
         return None
+
