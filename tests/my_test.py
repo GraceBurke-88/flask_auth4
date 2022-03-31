@@ -47,7 +47,7 @@ def test_successful_registration(client, application):
     data = {'email': '87889@gmail.com', 'password': '123456', 'confirm': '123456'}
     response = application.test_client().post('/register', data=data)
     print(response.data)
-    client.post('/users/<int:user_id>/delete')
+    #client.post('/users/<int:user_id>/delete')
 
 #Password Confirmation (registration)
 def test_pass_confirmation_registration(client, application):
